@@ -9,12 +9,12 @@ function App(props) {
     <div className='App'>
       <div className='num'>Count: {props.output.num}</div>
       <div className='time'>Time: {props.timer.time}</div>
-      <button onClick={() => timerStartStop(props.timer.on)}>
+      <button onClick={() => props.timerStartStop(props.timer.on)}>
         {props.timer.text}
       </button>
-      <button onClick={addOne}>+</button>
-      <button onClick={subOne}>-</button>
-      <button onClick={timerReset}>Reset</button>
+      <button onClick={props.addOne}>+</button>
+      <button onClick={props.subOne}>-</button>
+      <button onClick={props.timerReset}>Reset</button>
     </div>
   );
 }
@@ -26,4 +26,24 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    addOne: () => {
+      dispatch(addOne());
+    },
+    subOne: () => {
+      dispatch(subOne());
+    },
+    timerStartStop: isOn => {
+      dispatch(timerStartStop(isOn));
+    },
+    timerReset: () => {
+      dispatch(timerReset());
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

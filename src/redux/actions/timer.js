@@ -1,22 +1,22 @@
 import { TIMER_START, TIMER_STOP, TIMER_RESET, TEXT_CHANGE } from './types';
-import store from '../store';
+// import store from '../store';
 
 let timer = null;
 
-export const timerStartStop = isOn => {
+export const timerStartStop = isOn => dispatch => {
   if (isOn) {
     clearInterval(timer);
-    store.dispatch({
+    dispatch({
       type: TIMER_STOP,
       payload: { on: !isOn, text: 'Start' }
     });
   } else {
-    store.dispatch({
+    dispatch({
       type: TEXT_CHANGE,
       payload: { text: 'Stop' }
     });
     timer = setInterval(() => {
-      store.dispatch({
+      dispatch({
         type: TIMER_START,
         payload: { on: !isOn, text: 'Stop' }
       });
@@ -30,5 +30,5 @@ export const timerStartStop = isOn => {
 // };
 
 export const timerReset = () => {
-  store.dispatch({ type: TIMER_RESET, payload: {} });
+  return dispatch => dispatch({ type: TIMER_RESET, payload: {} });
 };
